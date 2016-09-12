@@ -3,9 +3,10 @@
 # Compatible with Ubuntu 14.04.1 and Mac OS X
 #
 #
-# if you using Mac OS X:
-# You'll need glfw
-#    http://www.glfw.org
+# You will need GLFW (http://www.glfw.org)
+#
+#   apt-get install libglfw-dev  # Linux
+#   brew install glfw            # Mac OS X
 #
 
 #CXX = g++
@@ -20,7 +21,7 @@ UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S), Linux) #LINUX
 	ECHO_MESSAGE = "Linux"
-	LIBS = `pkg-config --static --libs glfw3`
+	LIBS = -lGL `pkg-config --static --libs glfw3`
 
 	CXXFLAGS = -I../../ -I../libs/gl3w `pkg-config --cflags glfw3`
 	CXXFLAGS += -Wall -Wformat
@@ -30,10 +31,10 @@ endif
 ifeq ($(UNAME_S), Darwin) #APPLE
 	ECHO_MESSAGE = "Mac OS X"
 	LIBS = -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
-	LIBS += -L/usr/local/lib
-	LIBS += -lglfw3
+	LIBS += -L/usr/local/lib -lglfw3
+	#LIBS += -L/usr/local/lib -lglfw
 
-	CXXFLAGS = -I../../ -I../libs/gl3w -I/usr/local/Cellar/glew/1.10.0/include -I/usr/local/include
+	CXXFLAGS = -I../../ -I../libs/gl3w -I/usr/local/include
 	CXXFLAGS += -Wall -Wformat
 #	CXXFLAGS += -D__APPLE__
 	CFLAGS = $(CXXFLAGS)
